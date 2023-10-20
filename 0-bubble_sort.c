@@ -1,9 +1,10 @@
 #include "sort.h"
 
 /**
- * bubble_sort - compares adjacent elements, swaps if needed, repeats until sorted.
- * @array: Provided array to sort
- * @size: 
+ * bubble_sort - compares adjacent elements, swaps if needed,
+ *				repeats until sorted.
+ * @array: Provided array to sort.
+ * @size: The size of the array.
 */
 void bubble_sort(int *array, size_t size)
 {
