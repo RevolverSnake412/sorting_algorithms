@@ -19,7 +19,7 @@ void insertion_sort_list(listint_t **list)
 	{
 		return;
 	}
-
+	
 	while (cur != NULL)
 	{
 		if (cur->next == NULL)
@@ -27,7 +27,11 @@ void insertion_sort_list(listint_t **list)
 			(*list) = get_first((*list));
 			return;
 		}
-		if (cur->n < cur->next->n)
+		if (cur->n == cur->next->n)
+		{
+			cur = cur->next;
+		}
+		else if (cur->n < cur->next->n)
 		{
 			cur = cur->next;
 		}
