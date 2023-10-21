@@ -19,7 +19,7 @@ void insertion_sort_list(listint_t **list)
 	{
 		return;
 	}
-	
+
 	while (cur != NULL)
 	{
 		if (cur->next == NULL)
