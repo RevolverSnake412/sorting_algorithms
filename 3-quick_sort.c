@@ -1,85 +1,76 @@
 #include "sort.h"
 
-size_t i = 1, j = 0; /*i is for accessing the array from the end, j is the opposite*/
-int pivot;
-int current;
-int rule = 0; /*a switch from 0 to 1*/
-
-void rule0(int *array, size_t size);
-void rule1(int *array, size_t size);
-
 /**
- * quick_sort - Sorts an array of integers in ascending order using the Quick Sort algorithm.
- * 
- * @array: the array to sort.
- * @size: the size of the array.
+ * quick_sort - Sorts an array of integers in ascending order
+ *				using the Quick Sort algorithm.
+ * @array: The provided array to sort.
+ * @size: The size of the array.
 */
 void quick_sort(int *array, size_t size)
 {
-    pivot = array[size - i]; /*Declaring the pivot*/
-    current = array[j];
+	size_t i = 1, j = 0;
+	int pivot = array[size - i];
+	int current = array[j];
+	int rule = 0;
 
-    while(1)
-    {
-        if (j + i == size)
-        {
-            return;
-        }
+	/*
+		* Currently using an infinite while loop,
+		* don't worry about it.
+	*/
+	while (1)
+	{
+		/*The if statement when pivot and current will be on the same item*/
+		if (i + j == size)
+		{
+			return;
+		}
 
-        if (rule == 0)
-            rule0(array, size);
+		/*The first rule of Quick sort*/
+		if (rule == 0)
+		{
+			if (current <= pivot)
+			{
+				/*Shift the pv to the left*/
+				i++;
+				pivot = array[size - i];
+			}
+			else if (current > pivot)
+			{
+				/*Doing the swaping between pv and curr*/
+				array[j] = pivot;
+				array[size - i] = current;
 
-        if (rule == 1)
-            rule1(array, size);
-    }
-}
+				print_array(array, size);
+				/*Shift the pv to the right*/
+				j++;
+				pivot = array[j];
 
-/**
- * rule0 - This rule applies Initially, or after a second switch.
- * @array: the array to sort.
- * @size: the size of the array.
-*/
-void rule0(int *array, size_t size)
-{
-    if (current <= pivot)
-    {
-        i++;
-        pivot = array[size - i];
-    }
-    else if (current > pivot)
-    {
-        array[j] = pivot;
-        array[size - i] = current;
-        print_array(array, size);
+				rule = 1;
+			}
+		}
 
-        j++;
-        pivot = array[j];
+		/*The second rule of Quick sort*/
+		if (rule == 1)
+		{
+			if (pivot < current)
+			{
+				/*Shift the pv to the right*/
+				j++;
+				pivot = array[j];
+			}
+			else if (pivot > current)
+			{
+				/*Doing the swaping between pv and curr*/
+				array[j] = current;
+				array[size - i] = pivot;
+				print_array(array, size);
 
-        rule = 1;
-    }
-}
+				/*Shift the pv to the left*/
+				i++;
+				pivot = array[size - i];
 
-/**
- * rule1 - This rule applies after a switch.
- * @array: the array to sort.
- * @size: the size of the array.
-*/
-void rule1(int *array, size_t size)
-{
-    if (pivot < current)
-    {
-        j++;
-        pivot = array[j];
-    }
-    else if (pivot > current)
-    {
-        array[j] = current;
-        array[size - i] = pivot;
-        print_array(array, size);
-
-        i++;
-        pivot = array[size - i];
-
-        rule = 0;
-    }
+				rule = 0;
+			}
+		}
+	}
 }
