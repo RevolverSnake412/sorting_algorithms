@@ -15,6 +15,11 @@ void insertion_sort_list(listint_t **list)
 	listint_t *cur, *first;
 
 	cur = *list;
+	if ((*list) == NULL)
+	{
+		return;
+	}
+
 	if (cur == NULL || cur->next == NULL)
 	{
 		return;
