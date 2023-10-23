@@ -14,11 +14,12 @@ void insertion_sort_list(listint_t **list)
 	listint_t *tmp;
 	listint_t *cur, *first;
 
-	cur = *list;
-	if (*list == NULL || list == NULL || (*list)->next == NULL)
+	if (list == NULL || *list == NULL || (*list)->next == NULL)
 	{
 		return;
 	}
+	cur = *list;
+
 
 	while (cur != NULL)
 	{
