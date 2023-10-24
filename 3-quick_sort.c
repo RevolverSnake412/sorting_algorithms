@@ -20,7 +20,8 @@ void quick_sort(int *array, size_t size)
 	int tmp;
 	int pv_tmp = pv;
 
-	while (1)
+
+	while (cur != 11)
 	{
 		if (array[cur] > array[pv])
 			cur++;
@@ -39,7 +40,7 @@ void quick_sort(int *array, size_t size)
 				{
 					pv = swap;
 					new_arr[swap] = swap + 1;
-					print_array(new_arr, size);
+					//print_array(new_arr, size);
 					if (pv != pv_tmp)
 					{
 						new_split(new_arr, size, &pv, &cur);
@@ -56,26 +57,47 @@ void quick_sort(int *array, size_t size)
 void new_split(int *new_arr, size_t size, int *pv, int *cur)
 {
 	int k = size;
-
+	int flag = 0;
+	int tmp;
 	if ((*pv) - 1 >= 0 && new_arr[(*pv) - 1] == 0)
 	{
 		(*pv)--;
 		*cur = *pv;
 
-		printf("hello from left");
+		printf("hello from left %d\n", (*pv));
 		get_cur(new_arr, cur);
-
-		return;
+		printf("\n%d\n", *cur);
+		if ((*cur) == (*pv))
+		{
+			new_arr[(*cur)] = (*cur) + 1;	
+		}
+		else
+		{
+			flag = 1;
+		}
+		
 	}
 	if ((*pv) + 1 < k && new_arr[(*pv) + 1] == 0)
 	{
-		(*pv)++;
-		*cur = *pv;
+		if (flag == 1)
+		{
+			tmp = *pv + 1;
+		}
+		else
+		{
+			(*pv)++;
+			*cur = *pv;
+		}
 
-		printf("hello from right");
+		printf("hello from right %d\n", (*pv));
 		get_pv(new_arr, size, pv);
-		return;
+		
 	}
+	else
+	{
+		*cur = 11;
+	}
+	
 	
 	
 }
