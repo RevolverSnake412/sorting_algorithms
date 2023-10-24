@@ -1,7 +1,9 @@
 #include "sort.h"
 
-int first_rule(int *array, size_t size, size_t *i, size_t *j, int *pivot);
-int second_rule(int *array, size_t size, size_t *i, size_t *j, int *pivot);
+void new_split(int *new_arr, size_t size, int *pv, int *cur);
+void get_pv(int *new_arr, size_t size,int *pv);
+void get_cur(int *new_arr, int *cur);
+
 
 /**
  * quick_sort - Sorts an array of integers in ascending order
@@ -11,90 +13,87 @@ int second_rule(int *array, size_t size, size_t *i, size_t *j, int *pivot);
 */
 void quick_sort(int *array, size_t size)
 {
-	size_t i = 1, j = 0;
-	int pivot = array[size - i];
-	int rule = 0;
+	int *new_arr = malloc(size * sizeof(int));
+	int cur = 0;
+	int swap = -1;
+	int pv = size - 1;
+	int tmp;
+	int pv_tmp = pv;
 
-	/*
-		* Currently using an infinite while loop,
-		* don't worry about it.
-	*/
 	while (1)
 	{
-		/*The if statement when pivot and current will be on the same item*/
-		if (i + j == size)
+		if (array[cur] > array[pv])
+			cur++;
+		else if (array[cur] <= array[pv])
 		{
-			return;
-		}
+			
+			swap++;
+			if (array[cur] < array[swap])
+			{
+				tmp = array[cur];
+				array[cur] = array[swap];
+				array[swap] = tmp;
+				print_array(array, size);
 
-		/*The first rule of Quick sort*/
-		if (rule == 0)
-		{
-			rule = first_rule(array, size, &i, &j, &pivot);
-		}
-
-		/*The second rule of Quick sort*/
-		if (rule == 1)
-		{
-			rule = second_rule(array, size, &i, &j, &pivot);
-		}
+				if (cur == pv)
+				{
+					pv = swap;
+					new_arr[swap] = swap + 1;
+					print_array(new_arr, size);
+					if (pv != pv_tmp)
+					{
+						new_split(new_arr, size, &pv, &cur);
+						
+					}
+				}
+			}
+			else if (array[cur] == array[swap])
+				cur++;	
+		}		
 	}
 }
 
-/**
- * first_rule - Called Initially or after a second swap.
- * @array: the array to sort.
- * @size: the size of the array.
- * @i: index selector from the end.
- * @j: index selector from the beginning.
- * @pivot: the pivot's value.
-*/
-int first_rule(int *array, size_t size, size_t *i, size_t *j, int *pivot)
+void new_split(int *new_arr, size_t size, int *pv, int *cur)
 {
-    int current = array[*j];
-	if (current <= *pivot)
+	int k = size;
+
+	if ((*pv) - 1 >= 0 && new_arr[(*pv) - 1] == 0)
 	{
-		(*i)++;
-		*pivot = array[size - (*i)];
+		(*pv)--;
+		*cur = *pv;
+
+		printf("hello from left");
+		get_cur(new_arr, cur);
+
+		return;
 	}
-	else if (current > *pivot)
+	if ((*pv) + 1 < k && new_arr[(*pv) + 1] == 0)
 	{
-		array[*j] = *pivot;
-		array[size - (*i)] = current;
-		print_array(array, size);
-		(*j)++;
-		*pivot = array[*j];
-		return 1;
+		(*pv)++;
+		*cur = *pv;
+
+		printf("hello from right");
+		get_pv(new_arr, size, pv);
+		return;
 	}
-	return 0;
+	
+	
 }
 
-/**
- * second_rule - Called after the initial swap.
- * @array: the array to sort.
- * @size: the size of the array.
- * @i: index selector from the end.
- * @j: index selector from the beginning.
- * @pivot: the pivot's value.
-*/
-int second_rule(int *array, size_t size, size_t *i, size_t *j, int *pivot)
+
+void get_pv(int *new_arr, size_t size,int *pv)
 {
-    int current = array[size - (*i)];
-	if (*pivot < current)
+	int k = size;
+	while ((*pv) + 1 < k && new_arr[(*pv) + 1] == 0)
 	{
-		(*j)++;
-		*pivot = array[*j];
+		(*pv)++;
 	}
-	else if (*pivot > current)
+}
+
+void get_cur(int *new_arr, int *cur)
+{
+	while ((*cur) - 1 >= 0 && new_arr[(*cur) - 1] == 0)
 	{
-		array[*j] = current;
-		array[size - (*i)] = *pivot;
-
-		print_array(array, size);
-
-		(*i)++;
-		*pivot = array[size - (*i)];
-		return 0;
+		(*cur)++;
 	}
-	return 1;
 }
